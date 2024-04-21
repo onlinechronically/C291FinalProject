@@ -1,0 +1,1 @@
+gcc WellnessAdventure.c -o WellnessAdventure -pedantic -std=c18 -Wall -Wextra -Werror && ./WellnessAdventure
