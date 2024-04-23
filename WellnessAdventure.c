@@ -48,7 +48,8 @@ void display_logo() {
     puts("                   __/ |         __/ |                 ");
     puts("                  |___/         |___/                  ");
 }
-
+// This method displays a summary of the game, alongside a detailed examplanation of how one would play the game
 void display_summary() {
     puts("StayingWell is an educational game directed torwards a younger audience, with the sole intention of informing the said audience all about Good Health & Well Being.");
+    puts("How to play: This game is a decision making role-playing game. Throughout this game, you play as an adventurer that seems to have plenty of run-ins with Health & Well-Being concerns. Additionally, throughout this game your goal is to get as much money as possible while keeping a healthy status. You might be prompted about a question regarding this topic, and answering said question will reward you. Additionally, you might be handed information helpful to keeping a healthy and well state.\n");
 }
