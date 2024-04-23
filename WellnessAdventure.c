@@ -6,6 +6,29 @@ void display_logo();
 void display_summary();
 void show_start_screen();
 void handle_start_option();
+void create_save_file();
+void load_save_file(char *fileName);
+void load_data_files();
+void do_flow();
+void load_questions();
+
+typedef struct {
+    char question[100];
+    char optionOne[100];
+    char optionTwo[100];
+    char optionThree[100];
+    char optionFour[100];
+    int correctOption;
+} Question;
+
+typedef struct {
+    long balance;
+    long score;
+} Session;
+
+Session session;
+Question *questions;
+char **facts;
 
 int main() {
     clear_console();
@@ -37,6 +60,56 @@ void handle_start_option() {
 }
 
 // This method loads all of the questions and facts to be used within the game
+void load_data_files() {
+    FILE *fp;
+    fp = fopen("questions.txt", "r");
+    if (fp == NULL) {
+        puts("There was an error loading the list of questions (questions.txt)");
+        exit(1);
+    }
+    int totalQuestions = 0;
+    int totalFacts = 0;
+    char question[100];
+    char one[100];
+    char two[100];
+    char three[100];
+    char four[100];
+    int correct;
+    char fact[100];
+    questions = calloc(0, sizeof(Question));
+    if (questions == NULL) {
+        puts("There was an error allocating memory");
+        exit(1);
+    }
+    while (fscanf(fp, "%[^,],%[^,],%[^,],%[^,],%[^,],%d\n", question, one, two, three, four, &correct) != EOF) {
+        Question q;
+        strcpy(q.question, question);
+        strcpy(q.optionOne, one);
+        strcpy(q.optionTwo, two);
+        strcpy(q.optionThree, three);
+        strcpy(q.optionFour, four);
+        q.correctOption = correct;
+        questions = realloc(questions, (totalQuestions+1)*sizeof(Question));
+        if (questions == NULL) {
+            puts("There was an error allocating memory");
+            exit(1);
+        }
+        questions[totalQuestions++] = q;
+    }
+    fp = fopen("facts.txt", "r");
+    if (fp == NULL) {
+        puts("There was an error loading the list of facts (facts.txt)");
+        exit(1);
+    }
+    while (fscanf(fp, "%[^\n]s\n", fact)) {
+        facts = realloc(facts, (totalFacts + 1)*100);
+        if (facts == NULL) {
+            puts("There was an error allocating memory");
+            exit(1);
+        }
+        facts[totalFacts++] = fact;
+    }
+}
 // This method will prompt the user to save/quit the game, if they choose not to then the game will continue
 // Like the name states, this method clears the command line interface
 void clear_console() {
