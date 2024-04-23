@@ -116,6 +116,7 @@ void clear_console() {
     puts("\x1B[1;1H\x1B[2J");
 }
 
+// This method displays the title of the game, in an ascii art representation 
 void display_logo() {
     puts("   _____ _              _          __          __  _ _ ");
     puts("  / ____| |            (_)         \\ \\        / / | | |");
