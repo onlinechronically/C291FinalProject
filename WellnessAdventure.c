@@ -1,16 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <unistd.h>
 
 void clear_console();
 void display_logo();
 void display_summary();
 void show_start_screen();
 void handle_start_option();
-void create_save_file();
+void create_save();
 void load_save_file(char *fileName);
+void create_new_session();
 void load_data_files();
-void do_flow();
+void run_level();
 void load_questions();
+void display_game_data();
+void intermission();
 
 typedef struct {
     char question[100];
@@ -24,17 +30,25 @@ typedef struct {
 typedef struct {
     long balance;
     long score;
+    long health;
 } Session;
 
 Session session;
 Question *questions;
 char **facts;
+char **events;
+time_t t;
+int totalFacts = 0;
+int totalQuestions = 0;
+int totalEvents = 0;
 
 int main() {
+    srand((unsigned) time(&t));
     clear_console();
     display_logo();
     display_summary();
     show_start_screen();
+    load_data_files();
     handle_start_option();
     return 0;
 }
@@ -48,15 +62,56 @@ void show_start_screen() {
 
 // This method handles the command line input the user should enter on the start screen
 void handle_start_option() {
+    printf("%d | %d\n", totalQuestions, totalFacts);
+    printf("%s\n", facts[0]);
     int opt;
     scanf("%d", &opt);
     if (opt == 1) {
-
+        create_new_session();
+        run_level();
     } else if (opt == 2) {
-
-    } else {
+        load_save_file("");
+        run_level();
+    } else if (opt == 3) {
         exit(1);
     }
+}
+
+// This method saves the current game to a file
+void create_save() {
+    char *fileName;
+    printf("Enter the file name of the save you would like to load: ");
+    scanf("%s", fileName);
+    FILE *fp;
+    fp = fopen(fileName, "w");
+    if (fp == NULL) {
+        puts("There was an error saving the current game");
+        exit(1);
+    }
+    fprintf(fp, "%lu,%lu,%lu", session.score, session.balance, session.health);
+}
+
+// This method loads a game session from a file
+void load_save_file(char *fileName) {
+    FILE *fp;
+    printf("%s", fileName);
+}
+
+// This method, is an in-game action that takes 10 of the users balance and replneishes their health back
+void replenish_health() {
+    if (session.health < 10 && session.balance >= 10) {
+        session.balance -= 10;
+        session.health = 10;
+    }
+}
+
+// This method creates a new session from the hardcoded starting point
+void create_new_session() {
+    Session s;
+    s.score = 0;
+    s.balance = 0;
+    s.health = 10;
+    session = s;
 }
 
 // This method loads all of the questions and facts to be used within the game
@@ -67,15 +122,13 @@ void load_data_files() {
         puts("There was an error loading the list of questions (questions.txt)");
         exit(1);
     }
-    int totalQuestions = 0;
-    int totalFacts = 0;
     char question[100];
     char one[100];
     char two[100];
     char three[100];
     char four[100];
     int correct;
-    char fact[100];
+    char fact[250];
     questions = calloc(0, sizeof(Question));
     if (questions == NULL) {
         puts("There was an error allocating memory");
@@ -96,21 +149,92 @@ void load_data_files() {
         }
         questions[totalQuestions++] = q;
     }
+    facts = calloc(0, 100*sizeof(char));
+    if (facts == NULL) {
+        puts("There was an error allocating memory");
+        exit(1);
+    }
+    fclose(fp);
     fp = fopen("facts.txt", "r");
     if (fp == NULL) {
         puts("There was an error loading the list of facts (facts.txt)");
         exit(1);
     }
-    while (fscanf(fp, "%[^\n]s\n", fact)) {
-        facts = realloc(facts, (totalFacts + 1)*100);
+    while (fscanf(fp, "%[^\n]s\n", fact) != EOF) {
+        facts = realloc(facts, (totalFacts + 1)*(250*sizeof(char)));
         if (facts == NULL) {
             puts("There was an error allocating memory");
             exit(1);
         }
-        facts[totalFacts++] = fact;
+        strcpy(facts[totalFacts++], fact);
+    }
+    fclose(fp);
+    fp = fopen("events.txt", "r");
+    events = malloc(0);
+    if (events == NULL) {
+        puts("There was an error allocating memory");
+        exit(1);
+    }
+    if (fp == NULL) {
+        puts("There was an error loading the list of events (events.txt)");
+        exit(1);
+    }
+    while (fscanf(fp, "%[^\n]s\n", fact) != EOF) {
+       events = realloc(events, (totalEvents + 1)*(250*sizeof(char)));
     }
 }
+
+void display_game_data() {
+    printf("Health %.2f%% | Current Score: %lu | Balance: $%lu\n", ((double) session.health/10)*100, session.score, session.balance);
+}
+
+void run_level() {
+    clear_console();
+    display_game_data();
+    int isAQuest = rand() % 3;
+    if (!isAQuest) {
+        puts("You happen to come across a somewhat interesting travelling market!!!");
+        puts("The travelling salesperson has a few offers for you:");
+        if (session.balance >= 10) printf("(1) %s: $%d\n", "A suprisingly but promising healing potion", 10);
+        if (session.balance >= 2) printf("(2) %s: $%d\n", "A random (but good to know) fact", 2);
+        int opt;
+        printf("What would you like to buy: ");
+        scanf("%d", &opt);
+        if (opt == 1) {
+            replenish_health();
+        } else if (opt == 2 && session.balance >= 2) {
+            printf("Here's a good tip: %s\n", facts[rand() % totalFacts]);
+        }
+        puts("The travelling salesperson leaves abruptly...");
+        sleep(5);
+        intermission();
+    } else {
+        session.balance++;
+        session.score++;
+        Question currentQuestion = questions[rand() % totalQuestions];
+        int randomEvent = rand() % totalEvents;
+        int showHint = rand() % 5;
+        if (showHint) printf("You remember: %s\n", facts[rand() % totalFacts]);
+        printf("%s\n", events[randomEvent]);
+        printf("%s\n", currentQuestion.question);
+        run_level();
+    }
+}
+
 // This method will prompt the user to save/quit the game, if they choose not to then the game will continue
+void intermission() {
+    clear_console();
+    display_game_data();
+    printf("You have reached a stopping point, would you like to save the game (1) or continue (2): ");
+    int opt;
+    scanf("%d", &opt);
+    if (opt == 1) {
+        puts("not impl");
+    } else {
+        run_level();
+    }
+}
+
 // Like the name states, this method clears the command line interface
 void clear_console() {
     puts("\x1B[1;1H\x1B[2J");
