@@ -16,12 +16,14 @@ int main() {
     return 0;
 }
 
+// This method shows the options that the user can choose, to be displayed when on the start screen
 void show_start_screen() {
     puts("1. Start New Game");
     puts("2. Continue Game (From File)");
     puts("3. Quit Game");
 }
 
+// This method handles the command line input the user should enter on the start screen
 void handle_start_option() {
     int opt;
     scanf("%d", &opt);
@@ -34,6 +36,9 @@ void handle_start_option() {
     }
 }
 
+// This method loads all of the questions and facts to be used within the game
+// This method will prompt the user to save/quit the game, if they choose not to then the game will continue
+// Like the name states, this method clears the command line interface
 void clear_console() {
     puts("\x1B[1;1H\x1B[2J");
 }
