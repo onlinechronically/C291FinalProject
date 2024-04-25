@@ -188,6 +188,14 @@ void display_game_data() {
     printf("Health %.2f%% | Current Score: %lu | Balance: $%lu\n", ((double) session.health/10)*100, session.score, session.balance);
 }
 
+// Given all of the fields for a Question, this method returns a character pointer (a dynamically sized string) of the correct answer
+char *correctAnswer(char *optionOne, char *optionTwo, char *optionThree, char *optionFour, int correctOption) {
+    if (correctOption == 0) return optionOne;
+    else if (correctOption == 1) return optionTwo;
+    else if (correctOption == 2) return optionThree;
+    else if (correctOption == 3) return optionFour;
+    return "N/A";
+}
 void run_level() {
     clear_console();
     display_game_data();
