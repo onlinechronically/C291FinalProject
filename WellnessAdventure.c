@@ -4,19 +4,23 @@
 #include <time.h>
 #include <unistd.h>
 
-void clear_console();
-void display_logo();
-void display_summary();
 void show_start_screen();
 void handle_start_option();
 void create_save();
 void load_save_file(char *fileName);
+void replenish_health();
+void roll_health();
 void create_new_session();
 void load_data_files();
-void run_level();
-void load_questions();
 void display_game_data();
+char *correctAnswer(char *optionOne, char *optionTwo, char *optionThree, char *optionFour, int correctOption);
+void run_level();
 void intermission();
+void clear_console();
+void display_logo();
+void draw_skull();
+void do_death();
+void display_summary();
 
 typedef struct {
     char question[100];
