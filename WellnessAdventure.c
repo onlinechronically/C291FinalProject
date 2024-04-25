@@ -177,8 +177,19 @@ void load_data_files() {
         puts("There was an error loading the list of events (events.txt)");
         exit(1);
     }
-    while (fscanf(fp, "%[^\n]s\n", fact) != EOF) {
+    while (fscanf(fp, "%[^\n]\n", fact) != EOF) {
        events = realloc(events, (totalEvents + 1)*(250*sizeof(char)));
+       if (events == NULL) {
+           puts("There was an error allocating memory");
+           exit(1);
+       }
+       int i = totalEvents++;
+       events[i] = malloc(250*sizeof(char));
+       if (events[i] == NULL) {
+           puts("There was ane rror allocating memory");
+           exit(1);
+       }
+       strcpy(events[i], fact);
     }
 }
 
