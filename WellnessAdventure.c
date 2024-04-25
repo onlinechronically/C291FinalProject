@@ -214,10 +214,36 @@ void run_level() {
         Question currentQuestion = questions[rand() % totalQuestions];
         int randomEvent = rand() % totalEvents;
         int showHint = rand() % 5;
-        if (showHint) printf("You remember: %s\n", facts[rand() % totalFacts]);
+        if (showHint == 3) printf("You remember: %s\n", facts[rand() % totalFacts]);
         printf("%s\n", events[randomEvent]);
         printf("%s\n", currentQuestion.question);
-        run_level();
+        printf("1. %s\n", currentQuestion.optionOne);
+        printf("2. %s\n", currentQuestion.optionTwo);
+        printf("3. %s\n", currentQuestion.optionThree);
+        printf("4. %s\n", currentQuestion.optionFour);
+        int answer;
+        printf("Choose an answer (the number next to the option): ");
+        scanf("%d", &answer);
+        if (answer-1 == currentQuestion.correctOption) {
+            puts("You answered this question correctly");
+            int findingRoll = rand() % 3;
+            if (findingRoll == 1) {
+                int rewardRoll = (rand() % 10)+1;
+                printf("...and you stumbled across some sort of treasure ($%d)\n", rewardRoll);
+                session.balance += rewardRoll;
+            }
+            session.score++;
+        }
+        else {
+            int lossHP = (rand() % 3)+1;
+            session.health -= lossHP;
+            printf("You answered this question incorrectly (the correct answer was %s), and suffered an injury (-%d HP)\n", correctAnswer(currentQuestion.optionOne, currentQuestion.optionTwo, currentQuestion.optionThree, currentQuestion.optionFour, currentQuestion.correctOption), lossHP);
+            if (session.health <= 0) {
+                do_death();
+            }
+        }
+        sleep(5);
+        intermission();
     }
 }
 
