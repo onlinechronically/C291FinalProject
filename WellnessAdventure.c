@@ -79,9 +79,9 @@ void handle_start_option() {
 
 // This method saves the current game to a file
 void create_save() {
-    char *fileName;
+    char fileName[100];
     printf("Enter the file name of the save you would like to load: ");
-    scanf("%s", fileName);
+    fgets(fileName, 100, stdin);
     FILE *fp;
     fp = fopen(fileName, "w");
     if (fp == NULL) {
