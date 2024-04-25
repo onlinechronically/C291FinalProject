@@ -222,6 +222,7 @@ void load_data_files() {
     }
 }
 
+// This method displays the stats for the current session, at the point in time (typically displayed at most times during the game)
 void display_game_data() {
     printf("Health %.2f%% | Current Score: %lu | Balance: $%lu\n", ((double) session.health/10)*100, session.score, session.balance);
 }
@@ -234,6 +235,8 @@ char *correctAnswer(char *optionOne, char *optionTwo, char *optionThree, char *o
     else if (correctOption == 3) return optionFour;
     return "N/A";
 }
+
+// This method runs the overall flow for the questions being asked to the user, as well as handling special events such as the travelling salesperson
 void run_level() {
     clear_console();
     display_game_data();
