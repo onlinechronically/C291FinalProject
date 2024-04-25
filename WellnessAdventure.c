@@ -62,8 +62,6 @@ void show_start_screen() {
 
 // This method handles the command line input the user should enter on the start screen
 void handle_start_option() {
-    printf("%d | %d\n", totalQuestions, totalFacts);
-    printf("%s\n", facts[0]);
     int opt;
     scanf("%d", &opt);
     if (opt == 1) {
