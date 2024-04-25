@@ -248,8 +248,6 @@ void run_level() {
         sleep(5);
         intermission();
     } else {
-        session.balance++;
-        session.score++;
         Question currentQuestion = questions[rand() % totalQuestions];
         int randomEvent = rand() % totalEvents;
         int showHint = rand() % 5;
