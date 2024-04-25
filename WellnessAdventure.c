@@ -100,6 +100,25 @@ void replenish_health() {
     if (session.health < 10 && session.balance >= 10) {
         session.balance -= 10;
         session.health = 10;
+        puts("You consume the substance and feel so much better.");
+    }
+}
+
+// This method, is an in-game action that based on rng either replenishes the users health or takes away 5
+void roll_health() {
+    if (session.balance >= 1) {
+        session.balance -= 1;
+        int roll = (rand() %5)+1;
+        if (roll == 0) {
+            session.health = 10;
+            puts("You consume the substance and feel so much better.");
+        } else {
+            session.health -= 5;
+            puts("You consume the substance and start to feel unwell (resulting in you losing -5 HP)");
+            if (session.health <= 0) {
+                do_death();
+            }
+        }
     }
 }
 
@@ -214,15 +233,18 @@ void run_level() {
         puts("The travelling salesperson has a few offers for you:");
         if (session.balance >= 10) printf("(1) %s: $%d\n", "A suprisingly but promising healing potion", 10);
         if (session.balance >= 2) printf("(2) %s: $%d\n", "A random (but good to know) fact", 2);
+        if (session.balance >= 1) printf("(3) %s: $%d\n", "A mysterious magic mushroom", 1);
         int opt;
-        printf("What would you like to buy: ");
+        printf("What would you like to buy (-1 to leave): ");
         scanf("%d", &opt);
         if (opt == 1) {
             replenish_health();
         } else if (opt == 2 && session.balance >= 2) {
             printf("Here's a good tip: %s\n", facts[rand() % totalFacts]);
+        } else if (opt == 3) {
+            roll_health();
         }
-        puts("The travelling salesperson leaves abruptly...");
+        if (opt != -1) puts("The travelling salesperson leaves abruptly...");
         sleep(5);
         intermission();
     } else {
