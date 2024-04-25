@@ -187,7 +187,13 @@ void load_data_files() {
             puts("There was an error allocating memory");
             exit(1);
         }
-        strcpy(facts[totalFacts++], fact);
+        int i = totalFacts++;
+        facts[i] = malloc(250*sizeof(char));
+        if (facts[i] == NULL) {
+            puts("There was an error allocating memory");
+            exit(1);
+        }
+        strcpy(facts[i], fact);
     }
     fclose(fp);
     fp = fopen("events.txt", "r");
