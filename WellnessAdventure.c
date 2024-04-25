@@ -181,7 +181,7 @@ void load_data_files() {
         puts("There was an error loading the list of facts (facts.txt)");
         exit(1);
     }
-    while (fscanf(fp, "%[^\n]s\n", fact) != EOF) {
+    while (fscanf(fp, "%[^\n]\n", fact) != EOF) {
         facts = realloc(facts, (totalFacts + 1)*(250*sizeof(char)));
         if (facts == NULL) {
             puts("There was an error allocating memory");
