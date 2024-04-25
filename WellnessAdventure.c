@@ -251,6 +251,53 @@ void display_logo() {
     puts("                   __/ |         __/ |                 ");
     puts("                  |___/         |___/                  ");
 }
+
+// This method displays an ascii art representation of a skull emoji, as part of the death part of the game
+void draw_skull() {
+    puts("                 uuuuuuu");
+    puts("             uu$$$$$$$$$$$uu");
+    puts("          uu$$$$$$$$$$$$$$$$$uu");
+    puts("         u$$$$$$$$$$$$$$$$$$$$$u");
+    puts("        u$$$$$$$$$$$$$$$$$$$$$$$u");
+    puts("       u$$$$$$$$$$$$$$$$$$$$$$$$$u");
+    puts("       u$$$$$$$$$$$$$$$$$$$$$$$$$u");
+    puts("       u$$$$$$\"   \"$$$\"   \"$$$$$$u");
+    puts("       \"$$$$\"      u$u       $$$$\"");
+    puts("        $$$u       u$u       u$$$");
+    puts("        $$$u      u$$$u      u$$$");
+    puts("         \"$$$$uu$$$   $$$uu$$$$\"");
+    puts("          \"$$$$$$$\"   \"$$$$$$$\"");
+    puts("            u$$$$$$$u$$$$$$$u");
+    puts("             u$\"$\"$\"$\"$\"$\"$u");
+    puts("  uuu        $$u$ $ $ $ $u$$       uuu");
+    puts(" u$$$$        $$$$$u$u$u$$$       u$$$$");
+    puts("  $$$$$uu      \"$$$$$$$$$\"     uu$$$$$$");
+    puts("u$$$$$$$$$$$uu    \"\"\"\"\"    uuuu$$$$$$$$$$");
+    puts("$$$$\"\"\"$$$$$$$$$$uuu   uu$$$$$$$$$\"\"\"$$$\"");
+    puts(" \"\"\"      \"\"$$$$$$$$$$$uu \"\"$\"\"\"");
+    puts("           uuuu \"\"$$$$$$$$$$uuu");
+    puts("  u$$$uuu$$$$$$$$$uu \"\"$$$$$$$$$$$uuu$$$");
+    puts("  $$$$$$$$$$\"\"\"\"           \"\"$$$$$$$$$$$\"");
+    puts("   \"$$$$$\"                      \"\"$$$$\"\"");
+    puts("     $$$\"                         $$$$\"");
+}
+
+// This method displays the death screen to the user, informing of stats and prompting main screen
+void do_death() {
+    clear_console();
+    puts("You failed to take care of your health & well-being, resulting in a loss of the game. Thank you for playing and I hope you learned something useful (and interesting) about health & well-being!!");
+    printf("You ended the game with a total score of %f and a balance of $%ld\n", ((double) session.health/10)*100, session.balance);
+    draw_skull();
+    while(getchar() != '\n');
+    printf("Press Enter to return to the main menu.");
+    while(getchar() != '\n');
+    clear_console();
+    display_logo();
+    display_summary();
+    show_start_screen();
+    handle_start_option();
+}
+
 // This method displays a summary of the game, alongside a detailed examplanation of how one would play the game
 void display_summary() {
     puts("StayingWell is an educational game directed torwards a younger audience, with the sole intention of informing the said audience all about Good Health & Well Being.");
