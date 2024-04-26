@@ -497,6 +497,7 @@ void blackjack() {
         } else {
             if (total_dealer_value == total_player_value && total_player_value <= 21) {
                 puts("You and the dealer ended this game of BlackJack with the same hand, resulting in neither a win nor a loss.");
+                sleep(5);
             } else if (total_player_value > total_dealer_value && total_player_value <= 21) {
                 printf("You won this game of BlackJack, winning %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? 2*(total*10) : 2*total, riskyFlag ? " of your health" : "");
                 if (riskyFlag) session.health -= 2*total;
