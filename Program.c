@@ -428,7 +428,6 @@ void blackjack() {
         int was_instant_win = -1;
         if (total_player_value == 21) was_instant_win = 1;
         else if (total_dealer_value == 21) was_instant_win = 0;
-
         clear_console();
         draw_blackjack_logo();
         printf("Your hand:\n\t");
