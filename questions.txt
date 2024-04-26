@@ -1,0 +1,34 @@
+What is the leading cause of preventable death worldwide?,Malaria,Tuberculosis,Smoking-related diseases,Malnutrition,2
+Which of the following diseases is caused by a parasite transmitted through infected mosquitoes?,Cholera,Dengue fever,Measles,Tuberculosis,1
+What is the recommended daily intake of fruits and vegetables for optimal health?,1 serving,3 servings,5 servings,10 servings,2
+Which of the following is a waterborne disease?,Influenza,Cholera,Tuberculosis,Diabetes,1
+What is the primary cause of tooth decay?,Bacteria,Sugar,Acidic foods,Lack of fluoride,0
+Which vitamin deficiency leads to scurvy?,Vitamin A,Vitamin C,Vitamin D,Vitamin E,1
+What is the normal resting heart rate for adults?,60-70 beats per minute,80-90 beats per minute,100-110 beats per minute,120-130 beats per minute,0
+Which organ produces insulin in the human body?,Liver,Kidneys,Pancreas,Stomach,2
+What is the most common type of cancer in men?,Lung cancer,Prostate cancer,Colorectal cancer,Skin cancer,1
+Which of the following is a symptom of dehydration?,Excessive thirst,Frequent urination,Pale skin,Swollen ankles,0
+What is the function of red blood cells?,Carry oxygen,Fight infections,Digest food,Produce hormones,0
+Which nutrient is essential for strong bones and teeth?,Iron,Calcium,Vitamin B12,Vitamin K,1
+What is the medical term for high blood pressure?,Hypotension,Hypertension,Tachycardia,Bradycardia,1
+Which of the following is a symptom of anemia?,Fatigue,Insomnia,Anxiety,Headache,0
+What is the purpose of the lymphatic system?,Digestion,Blood circulation,Immune defense,Hormone production,2
+Which of the following vitamins is essential for blood clotting?,Vitamin A,Vitamin C,Vitamin D,Vitamin K,3
+What is the function of the respiratory system?,Pump blood,Filter toxins,Exchange gases,Regulate body temperature,2
+Which of the following is a symptom of diabetes?,Excessive thirst,Low blood pressure,Rapid weight gain,High cholesterol,0
+What is the purpose of the liver in the human body?,Produce insulin,Filter blood,Store bile,Regulate body temperature,1
+Which of the following is a risk factor for osteoporosis?,Regular exercise,High calcium intake,Smoking,Vitamin D supplementation,2
+What is the normal body temperature in degrees Celsius?,36°C,37°C,38°C,39°C,1
+Which of the following is a contagious viral infection?,Influenza,Pneumonia,Tuberculosis,Asthma,0
+What is the purpose of the small intestine?,Absorb nutrients,Pump blood,Produce enzymes,Store waste,0
+Which of the following is a symptom of an allergic reaction?,Fever,Rash,Muscle cramps,Joint pain,1
+Which of the following nutrients is essential for maintaining healthy skin and vision?,Iron,Vitamin C,Vitamin A,Calcium,2
+What is the purpose of the kidneys in the human body?,Produce insulin,Filter blood,Regulate body temperature,Digest food,1
+Which of the following is a symptom of a heart attack?,Chest pain,Headache,Muscle cramps,Backache,0
+What is the function of white blood cells?,Carry oxygen,Fight infections,Digest food,Produce hormones,1
+Which of the following is a risk factor for skin cancer?,Regular sunscreen use,Fair skin,Vitamin D deficiency,Low sun exposure,1
+What is the purpose of the gallbladder?,Produce bile,Store urine,Regulate blood sugar,Digest proteins,0
+Which of the following is a symptom of an allergic reaction to food?,Sneezing,Hives,Fatigue,Joint pain,1
+What is the normal respiratory rate (breaths per minute) for adults at rest?,10-15,20-25,30-35,40-45,1
+Which of the following is a symptom of anemia?,Rapid heartbeat,High blood pressure,Pale skin,Excessive sweating,2
+What is the purpose of the spleen?,Produce insulin,Filter blood,Store bile,Regulate body temperature,1
