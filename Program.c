@@ -494,15 +494,15 @@ void blackjack() {
                 do_death();
             }
         } else {
-            if (total_dealer_value == total_player_value && total_player_value <= 21) {
+            if (total_dealer_value == total_player_value && total_player_value <= 21) { // push case
                 puts("You and the dealer ended this game of BlackJack with the same hand, resulting in neither a win nor a loss.");
                 sleep(5);
-            } else if (total_player_value > total_dealer_value && total_player_value <= 21) {
+            } else if ((total_player_value > total_dealer_value && total_player_value <= 21) || (total_player_value <= 21 && total_dealer_value > 21)) { // win case
                 printf("You won this game of BlackJack, winning %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? 2*(total*10) : 2*total, riskyFlag ? "% of your health back" : "");
-                if (riskyFlag) session.health -= 2*total;
-                else session.balance -= 2*total;
+                if (riskyFlag) session.health += 2*total;
+                else session.balance += 2*total;
                 sleep(5);
-            } else if (total_dealer_value > total_player_value || total_player_value > 21) {
+            } else if (total_dealer_value > total_player_value || total_player_value > 21) { // good
                 printf("You lost this game of BlackJack, losing %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? total*10 : total, riskyFlag ? "% of your health" : "");
                 if (riskyFlag) session.health -= total;
                 else session.balance -= total;
