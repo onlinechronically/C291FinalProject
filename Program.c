@@ -115,6 +115,7 @@ void load_save_file(char *fileName) {
     }
     while (fscanf(fp, "%ld,%ld,%ld", &s.score, &s.balance, &s.health) != EOF);
     session = s;
+    fclose(fp);
 }
 
 // This method, is an in-game action that takes 10 of the users balance and replneishes their health back
@@ -238,6 +239,7 @@ void load_data_files() {
        }
        strcpy(events[i], fact);
     }
+    fclose(fp);
 }
 
 // This method displays the stats for the current session, at the point in time (typically displayed at most times during the game)
