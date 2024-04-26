@@ -94,7 +94,7 @@ void handle_start_option() {
 void create_save() {
     char fileName[100];
     printf("Enter the file name of the save you would like to save: ");
-    fgets(fileName, 100, stdin);
+    scanf("%s", fileName);
     FILE *fp;
     fp = fopen(fileName, "w");
     if (fp == NULL) {
@@ -102,6 +102,7 @@ void create_save() {
         exit(1);
     }
     fprintf(fp, "%lu,%lu,%lu", session.score, session.balance, session.health);
+    fclose(fp);
 }
 
 // This method loads a game session from a file
@@ -537,7 +538,13 @@ void intermission() {
     int opt;
     scanf("%d", &opt);
     if (opt == 1) {
-        puts("not impl");
+        create_save();
+        while(getchar() != '\n');
+        clear_console();
+        display_logo();
+        display_summary();
+        show_start_screen();
+        handle_start_option();
     } else {
         run_level();
     }
