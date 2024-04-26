@@ -1,1 +1,1 @@
-gcc Program.c -o Program -pedantic -std=c18 -Wall -Wextra -Werror && ./WellnessAdventure
+gcc Program.c -o Program -pedantic -std=c18 -Wall -Wextra -Werror && ./Program
