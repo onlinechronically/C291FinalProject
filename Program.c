@@ -69,7 +69,7 @@ void show_start_screen() {
 
 // This method handles the command line input the user should enter on the start screen
 void handle_start_option() {
-    /*int opt;
+    int opt;
     scanf("%d", &opt);
     if (opt == 1) {
         create_new_session();
@@ -87,7 +87,7 @@ void handle_start_option() {
         free(facts);
         free(events);
         exit(1);
-    }*/
+    }
 }
 
 // This method saves the current game to a file
