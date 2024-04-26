@@ -81,6 +81,11 @@ void handle_start_option() {
         load_save_file(fileName);
         run_level();
     } else if (opt == 3) {
+        free(questions);
+        for (int i = 0; i < totalFacts; i++) free(facts[i]);
+        for (int i = 0; i < totalEvents; i++) free(events[i]);
+        free(facts);
+        free(events);
         exit(1);
     }*/
 }
