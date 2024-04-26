@@ -77,7 +77,7 @@ void handle_start_option() {
     } else if (opt == 2) {
         char fileName[100];
         printf("Enter the file name of the you would like to load: ");
-        fgets(fileName, 100, stdin);
+        scanf("%s", fileName);
         load_save_file(fileName);
         run_level();
     } else if (opt == 3) {
@@ -106,8 +106,15 @@ void create_save() {
 
 // This method loads a game session from a file
 void load_save_file(char *fileName) {
-    //FILE *fp;
-    printf("%s", fileName);
+    Session s;
+    FILE *fp;
+    fp = fopen(fileName, "r");
+    if (fp == NULL) {
+        puts("There was an error loading the requested save file");
+        exit(1);
+    }
+    while (fscanf(fp, "%ld,%ld,%ld", &s.score, &s.balance, &s.health) != EOF);
+    session = s;
 }
 
 // This method, is an in-game action that takes 10 of the users balance and replneishes their health back
