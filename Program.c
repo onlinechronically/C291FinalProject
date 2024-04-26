@@ -437,8 +437,7 @@ void blackjack() {
         printf("Dealers hand:\n\t");
         for (int i = 0; i < dealer_total_cards; i++) printf("%s%s", dealer_cards[i], i == dealer_total_cards - 1 ? "\n" : ", ");
         printf("\tScore: %d\n", total_dealer_value);
-        
-        while (total_dealer_value < 21 && total_player_value < 21 && was_instant_win != -1) {
+        while (total_dealer_value < 21 && total_player_value < 21 && was_instant_win == -1) {
             printf("Would you like to hit (0) or stand (1): ");
             int move;
             scanf("%d", &move);
@@ -476,12 +475,12 @@ void blackjack() {
         puts("");
 
         if (was_instant_win == 1) {
-            printf("You won this game of BlackJack, winning %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? 2*(total*10) : 2*total, riskyFlag ? " of your health" : "");
+            printf("You won this game of BlackJack, winning %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? 2*(total*10) : 2*total, riskyFlag ? "% of your health back" : "");
             if (riskyFlag) session.health -= 2*total;
             else session.balance -= 2*total;
             sleep(5);
         } else if (was_instant_win == 0) {
-            printf("You lost this game of BlackJack, losing %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? total*10 : total, riskyFlag ? " of your health" : "");
+            printf("You lost this game of BlackJack, losing %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? total*10 : total, riskyFlag ? "% of your health" : "");
             if (riskyFlag) session.health -= total;
             else session.balance -= total;
             sleep(5);
@@ -499,12 +498,12 @@ void blackjack() {
                 puts("You and the dealer ended this game of BlackJack with the same hand, resulting in neither a win nor a loss.");
                 sleep(5);
             } else if (total_player_value > total_dealer_value && total_player_value <= 21) {
-                printf("You won this game of BlackJack, winning %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? 2*(total*10) : 2*total, riskyFlag ? " of your health" : "");
+                printf("You won this game of BlackJack, winning %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? 2*(total*10) : 2*total, riskyFlag ? "% of your health back" : "");
                 if (riskyFlag) session.health -= 2*total;
                 else session.balance -= 2*total;
                 sleep(5);
             } else if (total_dealer_value > total_player_value || total_player_value > 21) {
-                printf("You lost this game of BlackJack, losing %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? total*10 : total, riskyFlag ? " of your health" : "");
+                printf("You lost this game of BlackJack, losing %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? total*10 : total, riskyFlag ? "% of your health" : "");
                 if (riskyFlag) session.health -= total;
                 else session.balance -= total;
                 sleep(5);
