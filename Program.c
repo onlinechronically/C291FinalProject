@@ -69,8 +69,6 @@ void show_start_screen() {
 
 // This method handles the command line input the user should enter on the start screen
 void handle_start_option() {
-    for (int i = 0; i < 52; i++) get_card(i);
-    blackjack();
     /*int opt;
     scanf("%d", &opt);
     if (opt == 1) {
@@ -260,7 +258,7 @@ void run_level() {
         printf("What would you like to buy (-1 to leave): ");
         scanf("%d", &opt);
         if (opt == 0) {
-
+            blackjack();
         } else if (opt == 1) {
             replenish_health();
         } else if (opt == 2 && session.balance >= 2) {
@@ -269,8 +267,8 @@ void run_level() {
             roll_health();
         }
         if (opt != -1) puts("The travelling salesperson leaves abruptly...");
-        sleep(5);
-        intermission();
+        if (opt != 0 && opt != -1) sleep(5);
+        if (opt != 0) intermission();
     } else {
         Question currentQuestion = questions[rand() % totalQuestions];
         int randomEvent = rand() % totalEvents;
@@ -308,6 +306,7 @@ void run_level() {
     }
 }
 
+// Given a card, this method returns a string representation of said, while taking suit into account
 char *get_card(int card) {
     int newCard = card + 1;
     char *values[] = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
@@ -332,33 +331,24 @@ char *get_card(int card) {
     return cardName;
 }
 
-int *get_total_points(int *values, int totalValues) {
-    int *allValues = calloc(1, sizeof(int));
-    int mainTotal = 0;
-    int areAcesFine = 1;
+// Given an array of card values, this method calculates the highest possible score, and takes into account aces
+int get_total_points(int *values, int totalValues) {
+    int allCards = 0;
+    int aces = 0;
     for (int i = 0; i < totalValues; i++) {
-        if (values[i] == 11) {
-            if (mainTotal + 11 > 21) {
-
-            }
-            // do ace logic
-        } else {
-            mainTotal += values[i];
+        allCards += values[i];
+        if (values[i] == 11) aces++;
+        // if the sum is above 21 and there are aces, try converting values
+        while (allCards > 21 && aces > 0) {
+            aces--;
+            allCards -= 10; // subtract 10, as a ace can be either 11 or 1
         }
     }
-    if (!areAcesFine) {
-        allValues[0] = mainTotal;
-    }
-    return allValues;
+    return allCards;
 }
 
 // This method runs a single mini-game of blackjack - using random number generation and not an actual deck
 void blackjack() {
-    Session debugSession;
-    debugSession.health = 10;
-    debugSession.balance = 1000;
-    debugSession.score = 50;
-    session = debugSession;
     clear_console();
     display_game_data();
     puts("");
@@ -367,53 +357,163 @@ void blackjack() {
     printf("Would you like to gamble your well-being (1) or a portion of your balance (2): ");
     int opt;
     scanf("%d", &opt);
-    if (opt == 1 && ) {
+    int continuable = 1;
+    int riskyFlag;
+    unsigned long total;
+    if (opt == 1) {
         if (session.health >= 2) {
-
+            riskyFlag = 1;
+            total = 2;
         } else {
-            // doesnt have enough health, kick outta blackjack
+            continuable = 0;
+            puts("The salesperson claims you are not worth enough, and vanishes...");
+            sleep(5);
+            intermission();
         }
-    } else if (opt == 2)
-    int cardValues[52] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
-    char **dealer_cards = calloc(2, sizeof(char*));
-    int *dealer_values = calloc(2, sizeof(int));
-    int dealer_total_cards = 2;
-    char **player_cards = calloc(2, sizeof(char*));
-    int *player_values = calloc(2, sizeof(int));
-    int player_total_cards = 2;
-    if (dealer_cards == NULL || player_cards == NULL || dealer_values == NULL || player_values == NULL) {
-        puts("There was an error allocating memory");
-        exit(1);
+    } else if (opt == 2) {
+        unsigned long moneyToGamble;
+        printf("How much of you balance would you like to gamble: ");
+        scanf("%lu", &moneyToGamble);
+        if (moneyToGamble > (unsigned long) session.balance || moneyToGamble == 0 || session.balance == 0) {
+            continuable = 0;
+            puts("The salesperson can see right past your bluff, and vanishes...");
+            sleep(5);
+            intermission();
+        } else {
+            riskyFlag = 0;
+            total = moneyToGamble;
+        }
     }
-    int dealer_first = rand() % 52;
-    int dealer_second = rand() % 52;
-    int player_first = rand() % 52;
-    int player_second = rand() % 52;
-    get_card(player_first);
-    get_card(player_second);
-    get_card(dealer_first);
-    get_card(dealer_second);
-    dealer_values[0] = cardValues[dealer_first];
-    dealer_values[1] = cardValues[dealer_second];
-    player_values[0] = cardValues[player_first];
-    player_values[1] = cardValues[player_second];
-    player_cards[0] = get_card(player_first);
-    player_cards[1] = get_card(player_second);
-    dealer_cards[0] = get_card(dealer_first);
-    dealer_cards[1] = get_card(dealer_second);
-    int *total_dealer_value = get_total_points(dealer_values, dealer_total_cards);
-    int *total_player_value = get_total_points(player_values, player_total_cards);
-    printf("Your hand: ");
-    for (int i = 0; i < player_total_cards; i++) printf("%s | ", player_cards[i]);
-    //printf("Total Points: 
-    free(dealer_values);
-    free(player_values);
-    free(total_dealer_value);
-    free(total_player_value);
-    for (int i = 0; i < dealer_total_cards; i++) free(dealer_cards[i]);
-    for (int i = 0; i < player_total_cards; i++) free(player_cards[i]);
-    free(dealer_cards);
-    free(player_cards);
+    if (continuable) {
+        int cardValues[52] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
+        char **dealer_cards = calloc(2, sizeof(char*));
+        int *dealer_values = calloc(2, sizeof(int));
+        int dealer_total_cards = 2;
+        char **player_cards = calloc(2, sizeof(char*));
+        int *player_values = calloc(2, sizeof(int));
+        int player_total_cards = 2;
+        if (dealer_cards == NULL || player_cards == NULL || dealer_values == NULL || player_values == NULL) {
+            puts("There was an error allocating memory");
+            exit(1);
+        }
+        int dealer_first = rand() % 52;
+        int dealer_second = rand() % 52;
+        int player_first = rand() % 52;
+        int player_second = rand() % 52;
+        dealer_values[0] = cardValues[dealer_first];
+        dealer_values[1] = cardValues[dealer_second];
+        player_values[0] = cardValues[player_first];
+        player_values[1] = cardValues[player_second];
+        player_cards[0] = get_card(player_first);
+        player_cards[1] = get_card(player_second);
+        dealer_cards[0] = get_card(dealer_first);
+        dealer_cards[1] = get_card(dealer_second);
+        int total_dealer_value = get_total_points(dealer_values, dealer_total_cards);
+        int total_player_value = get_total_points(player_values, player_total_cards);
+
+        int was_instant_win = -1;
+        if (total_player_value == 21) was_instant_win = 1;
+        else if (total_dealer_value == 21) was_instant_win = 0;
+
+        clear_console();
+        draw_blackjack_logo();
+        printf("Your hand:\n\t");
+        for (int i = 0; i < player_total_cards; i++) printf("%s%s", player_cards[i], i == player_total_cards - 1 ? "\n" : ", ");
+        printf("\tScore: %d\n", total_player_value);
+        printf("Dealers hand:\n\t");
+        for (int i = 0; i < dealer_total_cards; i++) printf("%s%s", dealer_cards[i], i == dealer_total_cards - 1 ? "\n" : ", ");
+        printf("\tScore: %d\n", total_dealer_value);
+        
+        while (total_dealer_value < 21 || total_player_value < 21 || was_instant_win != -1) {
+            printf("Would you like to hit (0) or stand (1): ");
+            int move;
+            scanf("%d", &move);
+            int idle = 1;
+            if (move == 0) {
+                idle = 0;
+                int rng_card = rand() % 52;
+                player_values = realloc(player_values, (player_total_cards+1)*sizeof(int));
+                player_cards = realloc(player_cards, (player_total_cards+1)*sizeof(char*));
+                player_values[player_total_cards] = cardValues[rng_card];
+                player_cards[player_total_cards] = get_card(rng_card);
+                player_total_cards++;
+                total_player_value = get_total_points(player_values, player_total_cards);
+            }
+            if (total_dealer_value <= 16) {
+                idle = 0;
+                int rng_card = rand() % 52;
+                dealer_values = realloc(dealer_values, (dealer_total_cards+1)*sizeof(int));
+                dealer_cards = realloc(dealer_cards, (dealer_total_cards+1)*sizeof(char*));
+                dealer_values[dealer_total_cards] = cardValues[rng_card];
+                dealer_cards[dealer_total_cards] = get_card(rng_card);
+                dealer_total_cards++;
+                total_dealer_value = get_total_points(dealer_values, dealer_total_cards);
+            }
+            clear_console();
+            draw_blackjack_logo();
+            printf("Your hand:\n\t");
+            for (int i = 0; i < player_total_cards; i++) printf("%s%s", player_cards[i], i == player_total_cards - 1 ? "\n" : ", ");
+            printf("\tScore: %d\n", total_player_value);
+            printf("Dealers hand:\n\t");
+            for (int i = 0; i < dealer_total_cards; i++) printf("%s%s", dealer_cards[i], i == dealer_total_cards - 1 ? "\n" : ", ");
+            printf("\tScore: %d\n", total_dealer_value);
+            if (idle) break;
+        }
+        puts("");
+
+        if (was_instant_win == 1) {
+            printf("You won this game of BlackJack, winning %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? 2*(total*10) : 2*total, riskyFlag ? " of your health" : "");
+            if (riskyFlag) session.health -= 2*total;
+            else session.balance -= 2*total;
+            sleep(5);
+        } else if (was_instant_win == 0) {
+            printf("You lost this game of BlackJack, losing %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? total*10 : total, riskyFlag ? " of your health" : "");
+            if (riskyFlag) session.health -= total;
+            else session.balance -= total;
+            sleep(5);
+            if (session.health <= 0) {
+                free(dealer_values);
+                free(player_values);
+                for (int i = 0; i < dealer_total_cards; i++) free(dealer_cards[i]);
+                for (int i = 0; i < player_total_cards; i++) free(player_cards[i]);
+                free(dealer_cards);
+                free(player_cards);
+                do_death();
+            }
+        } else {
+            if (total_dealer_value == total_player_value) {
+                puts("You and the dealer ended this game of BlackJack with the same hand, resulting in neither a win nor a loss.");
+            } else if (total_player_value > total_dealer_value && total_player_value <= 21) {
+                printf("You won this game of BlackJack, winning %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? 2*(total*10) : 2*total, riskyFlag ? " of your health" : "");
+                if (riskyFlag) session.health -= 2*total;
+                else session.balance -= 2*total;
+                sleep(5);
+            } else if (total_dealer_value > total_player_value) {
+                printf("You lost this game of BlackJack, losing %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? total*10 : total, riskyFlag ? " of your health" : "");
+                if (riskyFlag) session.health -= total;
+                else session.balance -= total;
+                sleep(5);
+                if (session.health <= 0) {
+                    free(dealer_values);
+                    free(player_values);
+                    for (int i = 0; i < dealer_total_cards; i++) free(dealer_cards[i]);
+                    for (int i = 0; i < player_total_cards; i++) free(player_cards[i]);
+                    free(dealer_cards);
+                    free(player_cards);
+                    do_death();
+                }
+            }
+        }
+
+        // Freeing of dynamically allocated values
+        free(dealer_values);
+        free(player_values);
+        for (int i = 0; i < dealer_total_cards; i++) free(dealer_cards[i]);
+        for (int i = 0; i < player_total_cards; i++) free(player_cards[i]);
+        free(dealer_cards);
+        free(player_cards);
+        intermission();
+    }
 }
 
 // This method will prompt the user to save/quit the game, if they choose not to then the game will continue
