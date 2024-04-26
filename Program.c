@@ -595,7 +595,7 @@ void draw_skull() {
 void do_death() {
     clear_console();
     puts("You failed to take care of your health & well-being, resulting in a loss of the game. Thank you for playing and I hope you learned something useful (and interesting) about health & well-being!!");
-    printf("You ended the game with a total score of %f and a balance of $%ld\n", ((double) session.health/10)*100, session.balance);
+    printf("You ended the game with a total score of %lu and a balance of $%ld\n", session.score, session.balance);
     draw_skull();
     while(getchar() != '\n');
     printf("Press Enter to return to the main menu.");
