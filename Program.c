@@ -476,8 +476,8 @@ void blackjack() {
 
         if (was_instant_win == 1) {
             printf("You won this game of BlackJack, winning %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? 2*(total*10) : 2*total, riskyFlag ? "% of your health back" : "");
-            if (riskyFlag) session.health -= 2*total;
-            else session.balance -= 2*total;
+            if (riskyFlag) session.health += 2*total;
+            else session.balance += 2*total;
             sleep(5);
         } else if (was_instant_win == 0) {
             printf("You lost this game of BlackJack, losing %s%lu%s\n", riskyFlag ? "" : "$", riskyFlag ? total*10 : total, riskyFlag ? "% of your health" : "");
